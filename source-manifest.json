@@ -1,0 +1,78 @@
+{
+  "source": "/Users/zhixuanchen/Library/Containers/com.tencent.WeWorkMac/Data/Documents/Profiles/4B43F1C0C2F7C366865AEFF620B42C3C/Caches/Files/2026-09/5fa53dfe1c45f8c38edb6ccdcdf554c4/光庭.html",
+  "sha256": "9e81b3ce51712d8046d1c50bef72870da9de43771bf3c9a81bf4c195ad6f77be",
+  "assets": [
+    {
+      "path": "assets/source-00.json",
+      "mime": "application/json",
+      "bytes": 2785,
+      "sha256": "e00b6909d44426ec87b055504bad8973f02d34c31896fb7ad7f9972f6eb009eb"
+    },
+    {
+      "path": "assets/source-01.json",
+      "mime": "application/json",
+      "bytes": 715,
+      "sha256": "e4b92c7d96a01812f0ffbf39f0a495ee0d7c5569ea868df6b6a698ef4fd3b7bf"
+    },
+    {
+      "path": "assets/source-02.glb",
+      "mime": "model/gltf-binary",
+      "bytes": 51732532,
+      "sha256": "0530015e832d5f42a619b6b43cb15e9a32a88f81f098de49131d2ab09a8e25d8"
+    },
+    {
+      "path": "assets/source-03.glb",
+      "mime": "model/gltf-binary",
+      "bytes": 98452,
+      "sha256": "1ddd197f41fa11909c854e1c3288b985ad8cfaa358b12bf0eef99cd8103d0f1e"
+    },
+    {
+      "path": "assets/source-04.glb",
+      "mime": "model/gltf-binary",
+      "bytes": 3692800,
+      "sha256": "3923f58eebb8474b5f1971822dd6f0b1ccf6fb1fe7d4af979fa5fee1fc3f9336"
+    },
+    {
+      "path": "assets/source-05.fbx",
+      "mime": "application/octet-stream",
+      "bytes": 1770176,
+      "sha256": "868e4fe24e5bcfee67d8c14a353c5ff5b4a890a66f98babe113e2d5b3c1fc98a"
+    },
+    {
+      "path": "assets/source-06.jpg",
+      "mime": "image/jpeg",
+      "bytes": 972198,
+      "sha256": "81714aabf867596cd4659a3138a5665180d97af8f0224dde16be23814e23ff53"
+    },
+    {
+      "path": "assets/source-07.png",
+      "mime": "image/png",
+      "bytes": 3517818,
+      "sha256": "94fc2b0679a0bbf666cb18a0548d669c85e1d024486bf4e71d404cb459fde165"
+    },
+    {
+      "path": "assets/source-08.jpg",
+      "mime": "image/jpeg",
+      "bytes": 907345,
+      "sha256": "79858af7049e3165b245d6cace437f9a51e6cba6907f3257924bc0e751a7d10f"
+    },
+    {
+      "path": "assets/source-09.jpg",
+      "mime": "image/jpeg",
+      "bytes": 583393,
+      "sha256": "c5f62f6aab09b335d1d91251ea29bbbf149994d93288bee792f4f7197af36913"
+    },
+    {
+      "path": "assets/source-10.fbx",
+      "mime": "application/octet-stream",
+      "bytes": 1761968,
+      "sha256": "d61d23dff023a942a97c642690b4ac8fa205cea0ee8efcd3b253ef59c195e638"
+    },
+    {
+      "path": "assets/source-11.fbx",
+      "mime": "application/octet-stream",
+      "bytes": 1826032,
+      "sha256": "68d18f1e3ea3a714cee57b0c57c2bcff119d7588e249c2e7dad0e8827f6183d0"
+    }
+  ]
+}

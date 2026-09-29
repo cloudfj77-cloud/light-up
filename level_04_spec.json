@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "title": "光庭",
+    "chapter": "04 · 续光水廊",
+    "coordinate_system": "Y-up",
+    "units": "meters",
+    "base": "用户提供的光庭.html，保留其中人物、动画、E/F交互、放灯下落以及前三关；镜头改为固定俯视机位",
+    "scope": "只新增第四关和第三至第四关光舟转场",
+    "source": "玩法参考.docx：绿色替代青色、青色替代白色，腾出白色完成出口任务",
+    "skills": [
+      "level-design-fundamentals：资源替换递进与安全恢复",
+      "environment-art：资产复用、功能色与主路径净空"
+    ],
+    "assumptions": [
+      "本关把连续替换落实为两段水上升降渡桥，不增加限时操作",
+      "不引入镜子或反射",
+      "镜头改为正交轴测沙盒机位：跟随位移、可拖动旋转与缩放，不再提供第一人称"
+    ]
+  },
+  "story": {
+    "background": "续光水廊借青光守住前桥，又借白光守住后桥。只有把合适的颜色留在合适的位置，白光才能抵达沉睡的圣所。",
+    "ending": "绿光留守前庭，青光照亮中庭，白光开启归路。"
+  },
+  "world_offset": [
+    72,
+    0,
+    -30
+  ],
+  "spawn_local": [
+    0,
+    0,
+    4.8
+  ],
+  "rooms": [
+    {
+      "id": "green_court",
+      "bounds": [
+        -4,
+        0,
+        0,
+        4,
+        6,
+        5.3
+      ]
+    },
+    {
+      "id": "first_bridge",
+      "bounds": [
+        -1.2,
+        -1.35,
+        -3.3,
+        1.2,
+        0,
+        0.05
+      ]
+    },
+    {
+      "id": "cyan_court",
+      "bounds": [
+        -3.5,
+        0,
+        -7.4,
+        3.5,
+        6,
+        -3.25
+      ]
+    },
+    {
+      "id": "second_bridge",
+      "bounds": [
+        -1.2,
+        -1.35,
+        -10.7,
+        1.2,
+        0,
+        -7.35
+      ]
+    },
+    {
+      "id": "white_sanctuary",
+      "bounds": [
+        -3.3,
+        0,
+        -16.2,
+        3.3,
+        7,
+        -10.65
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "green_court",
+      "to": "first_bridge",
+      "overlap": 0.05,
+      "condition": "receiver_green contains mask 2"
+    },
+    {
+      "from": "first_bridge",
+      "to": "cyan_court",
+      "overlap": 0.05
+    },
+    {
+      "from": "cyan_court",
+      "to": "second_bridge",
+      "overlap": 0.05,
+      "condition": "receiver_cyan contains mask 6"
+    },
+    {
+      "from": "second_bridge",
+      "to": "white_sanctuary",
+      "overlap": 0.05
+    }
+  ],
+  "puzzle": {
+    "lamps": [
+      {
+        "id": "green",
+        "mask": 2,
+        "home": [
+          0,
+          0.3,
+          3.8
+        ],
+        "initial_socket": -1
+      },
+      {
+        "id": "cyan",
+        "mask": 6,
+        "home": [
+          -2.1,
+          0.3,
+          3.4
+        ],
+        "initial_socket": 0
+      },
+      {
+        "id": "white",
+        "mask": 7,
+        "home": [
+          -1.9,
+          0.3,
+          -4.55
+        ],
+        "initial_socket": 2
+      }
+    ],
+    "receivers": [
+      {
+        "position": [
+          -2,
+          0.52,
+          0.7
+        ],
+        "required_mask": 2,
+        "controls": "first_bridge"
+      },
+      {
+        "position": [
+          -1.9,
+          0.52,
+          -6.4
+        ],
+        "required_mask": 6,
+        "controls": "second_bridge"
+      },
+      {
+        "position": [
+          -1.9,
+          0.52,
+          -13.25
+        ],
+        "required_mask": 7,
+        "controls": "exit_gate"
+      }
+    ],
+    "rules": [
+      "不再有固定灯座：灯可随身携带，也可以放在任意地面",
+      "接收色需要的全部颜色分量均满足才供能",
+      "两桥与白锁必须同时维持供能，出口才开启",
+      "点亮不自动完成，必须实际走到出口",
+      "放下即自由落到地面或台面，不再吸附到任何固定点位"
+    ],
+    "exit_gate_z": -14.1,
+    "win_z": -15.05,
+    "initial_placements": [
+      {
+        "lamp": "cyan",
+        "position": [
+          -2.1,
+          0.45,
+          3.4
+        ],
+        "supplies": "receiver_green_court"
+      },
+      {
+        "lamp": "white",
+        "position": [
+          -1.9,
+          0.45,
+          -4.55
+        ],
+        "supplies": "receiver_cyan_court"
+      }
+    ]
+  },
+  "mechanism": {
+    "prop": "低低的烛台 + 目标颜色晶石，五关统一",
+    "candlestick": {
+      "plate": [
+        0.8,
+        0.16,
+        0.8
+      ],
+      "shaft_top": "晶石中心下方 0.3 米",
+      "ring_y": 0.22,
+      "ring_radius": 0.34
+    },
+    "crystal": {
+      "shape": "octahedron",
+      "radius": 0.35,
+      "center_y": 0.52
+    },
+    "note": "共用 mechanism.js 的 buildMechanism；烛台圆环与晶石都取该机关需要的颜色，灯座只造烛台不造晶石",
+    "heights": {
+      "carry": 0.45,
+      "floor_lamp": 0.3,
+      "note": "放在地上的灯约 0.3 米，台面只到 0.22 米，光束从台面上方掠过再落入晶石"
+    },
+    "lamp": {
+      "model": "克隆第一关灯体，克隆后强制可见",
+      "rest_on_floor_y": 0.3,
+      "note": "没有灯台、没有吸附点；灯停在地上等待拿取，放下即自由落到地面（或台面），落地后按真实落点自动水平朝向最近可见的机关，看不到机关时保留放下时的朝向"
+    }
+  },
+  "metrics": {
+    "character_radius": 0.24,
+    "character_height": 1.3,
+    "walk_speed": 2.6,
+    "sprint_speed": 3.7,
+    "interaction_radius": 1.65,
+    "socket_radius": 1.45,
+    "beam_range": 24,
+    "bridge_seconds": 1.3,
+    "gate_seconds": 1.1,
+    "ferry_seconds": 7.95
+  },
+  "recovery": {
+    "player_fall": "返回本关入口，保留已放置灯具；携带灯随玩家返回",
+    "lamp_fall": "沿用原文件下落与表面落地，落水则回原灯台",
+    "reset": "绿灯归入口，青灯与白灯恢复预置供能，不恢复成死局"
+  },
+  "transition": {
+    "from": 3,
+    "to": 4,
+    "route_offset": [
+      48,
+      0,
+      -20
+    ],
+    "local_departure_z": -14.7,
+    "arrival_world": [
+      72,
+      0,
+      -25.2
+    ],
+    "route_relative": [
+      [
+        5.5,
+        -14.7
+      ],
+      [
+        10,
+        -13.5
+      ],
+      [
+        13.8,
+        -12.5
+      ],
+      [
+        13.8,
+        -7
+      ],
+      [
+        13.8,
+        -3
+      ],
+      [
+        19,
+        -2.4
+      ],
+      [
+        24,
+        -2.6
+      ]
+    ],
+    "route_note": "航线先绕开源关卡东侧，走两关之间的开阔水道，再从目标关卡南侧靠岸；全程不从任何建筑下方穿过"
+  },
+  "verification": {
+    "entry": "?verifyfour=1",
+    "runtime": "http://127.0.0.1:8770/",
+    "standalone": "光庭_四关完整版.html",
+    "limitations": [
+      "本地file协议启动未由浏览器工具实测",
+      "实体手机性能未验证"
+    ]
+  }
+}

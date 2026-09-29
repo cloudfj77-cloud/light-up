@@ -1,0 +1,11 @@
+{
+  "meta":{"title":"光庭","chapter":"01 · 留光渡庭","mode":"探索","genre":"解谜","coordinate_system":"Y-up","units":"meters","scope":"仅第一小关，等待玩家确认后才制作后续关卡","objective":"把蓝光留在灯座，照亮机关并通过水庭抵达出口","core_loop":"拾灯 → 照射观察 → 安放持续供光 → 过桥","sources_used":["玩法参考.docx：持续照射机关与放置光源","level-design-fundamentals：目标预览与安全试错","environment-art：功能色、资产替换及状态一致性"],"assumptions":["第一关只使用蓝色光，不含镜子、反射、混色、敌人","站定后可用鼠标指向机关；移动时灯跟随角色朝向","固定灯座自动朝向接收晶体，首关不要求微调角度","手持通关若在实际光路条件下成立不视为作弊；放灯是更稳定的解法"]},
+  "story":{"background":"一座废弃水庭仍记得蓝色的光。古老灯座能够替旅人留住光芒，让沉在水下的渡石再次升起。","ending":"灯留在庭中，路便留在你的前方。"},
+  "metrics":{"character_height":1.3,"character_radius":0.24,"walk_speed":2.6,"sprint_speed":3.7,"interaction_radius":1.6,"lamp_height":1.04,"receiver_radius":0.38,"beam_range":20,"bridge_rise_seconds":1.3,"door_open_seconds":1.1},
+  "topology":"箱庭",
+  "spawn":[0,0,4.4],
+  "rooms":[{"id":"court","role":"puzzle","bounds":[-4,0,-4.9,4,9,5.4]},{"id":"water_crossing","role":"traversal","bounds":[-1.3,-1.2,-9.2,1.3,3,-4.9]},{"id":"arrival","role":"exit","bounds":[-2.6,0,-12.2,2.6,5,-9.2]}],
+  "connections":[{"from":"court","to":"water_crossing","width":2.4,"type":"door","condition":"receiver_powered"},{"from":"water_crossing","to":"arrival","width":2.4,"type":"open","condition":"bridge_raised"}],
+  "puzzle":{"lamp_home":[-2.25,1.04,3.05],"dock":[1.45,1.04,1.25],"receiver":[-2.65,1.04,-2.2],"exit":[0,0,-10.7],"rule":"只有无遮挡的蓝色光束命中晶体才供能；照射停止即断电，不用点击开关伪造照射。","loss":"无死亡惩罚；落水回到入口，已放置的光源保留；可随时整关复位。","win":"角色实际通过石门和渡桥进入出口，不是只点亮晶体就通关。"},
+  "art":{"primary_asset":"哥特遗迹的精细建筑与第一版神庙风格化布景融合","gothic_pack":"保留尖拱、彩窗、雕花基座及原UV；补入原神庙的藤蔓、旗帜、火盆、岩石、蓝光灯与晶体，不恢复镜子","colors":{"functional":"blue-cyan","environment":"cool stone, blue water and clustered green ivy","warm_accents":"two amber braziers and small candles"},"camera":"可有限旋转的第三人称斜俯视；开放中轴、低围墙与侧向高体块，无需整墙隐藏","environment_art_spec":"environment_art_spec.json"}
+}
