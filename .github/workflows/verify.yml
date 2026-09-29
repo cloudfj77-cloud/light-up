@@ -1,0 +1,31 @@
+name: Verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build
+        run: python3 tools/build.py
+      - name: Verify assets and standalone package
+        run: python3 tools/verify_package.py
+      - name: Check JavaScript syntax
+        run: |
+          node --input-type=module --check < app.js
+          node --input-type=module --check < chapter-six.js
+          node --check checked-standalone.mjs
+      - name: Check generated files are committed
+        run: git diff --exit-code -- app.js index.html
