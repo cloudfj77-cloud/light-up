@@ -13,7 +13,7 @@
 | source-02.glb | 哥特建筑素材包 | glTFast 导入模型/材质/贴图 |
 | source-03.glb | 原机关与灯体等模型 | glTFast 导入；不含网页代码生成的完整五关 |
 | source-04.glb | 箱体、旗帜、植物等装饰 | glTFast 导入 |
-| source-05/10/11.fbx | 人物/动画相关交付资源 | 引擎 FBX 导入，动画条目见导入报告；动作映射尚未接入 |
+| source-05/10/11.fbx | 人物/动画相关交付资源 | 第一关已接入移动、静止、携灯动作；派生动作去除水平位移，由角色控制器移动 |
 | source-06/08/09.jpg、source-07.png | 贴图 | Texture2D 导入 |
 | source-00/01.json | 原始设计/锚点数据 | TextAsset 导入，尚未解析为玩法配置 |
 | level_04/05_spec.json | 第四、五关规格 | TextAsset 导入，尚未自动生成游戏场景 |
@@ -53,4 +53,25 @@
 - 新建仅含 `Assets`、`Packages`、`ProjectSettings` 的临时副本，在没有 `Library` 缓存的情况下重新导入并通过同一检查；人物 Prefab 的原色、法线、金属平滑贴图引用均恢复。
 - 引擎实际渲染检查场景成功，人物不再是无贴图白模。导入结果见 [验证记录](validation/tuanjie-import-20260929.json)。
 - 网页 `app.js` 和 `index.html` 与 `delivery-20260929` 标签逐字节一致，移动目录未改变网页玩法。
-- 本次没有验证团结版五关通关或关卡视觉还原，因为这些 C# 玩法与正式场景尚未移植。
+- 素材导入阶段不包含五关移植；第一关后续进展见下方，第二至第五关仍为网页参考。
+
+## 第一关 C# 迁移初版
+
+入口为 `Assets/_LightUp/Scenes/ChapterOne.unity`。保存的场景直接引用交付建筑与人物素材，并包含角色控制器、原灯体、接收晶体、滑动门、三段升降桥、水面和对岸终点。场景为团队可直接编辑的文本资产，不在启动时临时生成。
+
+规则以当前网页 `main.js` 和 `mechanism.js` 为准：灯可自由放到地面，落地后自动水平朝向接收晶体，光线被实体挡住即断电。持续供能时门在 1.1 秒、桥在 1.3 秒内升起；通关必须走到对岸。灯落水回到原位，角色落水保留场上的灯并回到出生点。移动、碰撞、暂停、重开、拾放和镜头均为原生 C# 实现。
+
+本阶段保留的差异：接收器为派生八面体；水面使用独立 Shader；建筑装饰只迁移主要模块；未接入旗帜风动、音效、网页后处理、光舟和其他关卡。相机使用右键拖动，空格提供对准晶体的辅助操作；角色动作已有映射，但动作混合及手部精确持灯还需打磨。此阶段验证玩法闭环，不宣称与网页逐像素一致或覆盖原版全部 21 项视觉/行为用例。
+
+原生验证从真实场景进入 Play Mode，直接调用与键盘共用的角色运动和交互逻辑，包含不传送的出生点到出口完整路径。它验证模拟与场景，不替代键鼠人工试玩和 UI 验收。命令行运行时不要带 `-quit`（检查完成自行退出）：
+
+```sh
+"/Applications/Tuanjie/Hub/Editor/2022.3.61t5/Tuanjie.app/Contents/MacOS/Tuanjie" \
+  -batchmode -projectPath "$PWD" \
+  -executeMethod LightUp.Editor.ChapterOneChecks.Start \
+  -logFile /tmp/light-up-chapter-one.log
+```
+
+需要图形设备以输出截图，勿加 `-nographics`。结果写入 `artifacts/chapter-one-checks.json`；截图为 `chapter-one-start.png` 与 `chapter-one-powered.png`。GitHub CI 当前只执行可移植检查，原生检查使用已安装并激活的同版本团结编辑器执行。
+
+2026-09-29 本机实测：**21/21 项原生 Play Mode 检查通过**，包含角色骨骼姿态变化和真实角色控制器完成通关路径。详情见 [第一关验证记录](validation/chapter-one-20260929.json)。该 21 项是本工程的独立检查，并非网页原版 21 项用例的逐项复刻。已检查引擎渲染的初始/供能截图；尚未执行键鼠人工试玩或桌面 Player 打包验收。
