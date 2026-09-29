@@ -85,6 +85,25 @@ namespace LightUp.Editor
             try
             {
                 passed.Clear();
+                Quaternion originalRotation = game.view.transform.rotation;
+                foreach (float yaw in new[] {32f, 122f, 212f, 302f})
+                {
+                    game.view.transform.rotation = Quaternion.Euler(48, yaw, 0);
+                    bool directionsMatch = true;
+                    foreach (var input in new[] {Vector2.left, Vector2.right, Vector2.up, Vector2.down})
+                    {
+                        game.ResetGame();
+                        game.PlacePlayer(new Vector3(0, .02f, 1));
+                        Vector3 start = game.player.transform.position;
+                        game.StepFromView(.05f, input);
+                        Vector3 end = game.player.transform.position;
+                        end.y = start.y; // Ignore gravity when measuring the projected horizontal direction.
+                        Vector3 screenDelta = game.view.WorldToViewportPoint(end) - game.view.WorldToViewportPoint(start);
+                        directionsMatch &= Vector2.Dot(new Vector2(screenDelta.x, screenDelta.y), input) > .0001f;
+                    }
+                    Check(directionsMatch, "Keyboard directions follow screen at camera yaw " + yaw);
+                }
+                game.view.transform.rotation = originalRotation;
                 game.ResetGame();
                 Advance(.2f);
                 Check(!game.Powered && !game.Won && game.Bridge == 0 && game.gateCollider.enabled, "Starts with sleeping receiver, closed gate and submerged bridge");

@@ -54,8 +54,17 @@ namespace LightUp
             lastMouse = Input.mousePosition;
             Vector2 move = new Vector2(
                 (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) ? 1 : 0),
-                (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ? 1 : 0) - (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? 1 : 0));
-            Step(Time.deltaTime, move, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+                (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? 1 : 0) - (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ? 1 : 0));
+            StepFromView(Time.deltaTime, move, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+        }
+
+        // Input is screen-relative; the simulation still accepts world X/Z for navigation tests.
+        public void StepFromView(float dt, Vector2 input, bool sprint = false)
+        {
+            Vector3 right = Vector3.ProjectOnPlane(view.transform.right, Vector3.up).normalized;
+            Vector3 forward = Vector3.ProjectOnPlane(view.transform.forward, Vector3.up).normalized;
+            Vector3 movement = right * input.x + forward * input.y;
+            Step(dt, new Vector2(movement.x, movement.z), sprint);
         }
 
         public void PlacePlayer(Vector3 position)
