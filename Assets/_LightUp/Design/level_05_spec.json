@@ -1,0 +1,404 @@
+{
+  "meta": {
+    "title": "光庭",
+    "chapter": "05 · 回响升降庭",
+    "coordinate_system": "Y-up",
+    "units": "meters",
+    "source": "本轮用户指定的红绿交叉供能循环",
+    "scope": "仅新增第五关及第四到第五关的光舟转场",
+    "camera": "全关改为正交轴测沙盒机位，随角色平移、可拖动旋转与缩放；第五关被挡墙遮住时把相机移到墙前，保留手持灯防穿墙",
+    "assumptions": [
+      "绿台一次激活完成上升并移向二层的固定行程，停靠后失去绿光才返航",
+      "为避免临界高度抖动并提供登台时间，上下行程各4秒，顶部最短停靠3.4秒，底部等待2.2秒",
+      "以上机械行程与停靠窗口不自动产生循环；循环只由两束真实光线的接通和断开产生"
+    ]
+  },
+  "story": {
+    "background": "残墙将升降庭分为两侧。下层绿机关唤起渡台，上层红机关唤起另一座升降台与门。两束光必须替彼此创造下一次回应。",
+    "ending": "红绿交替，两座平台恢复往复，旅人借一次回响抵达上层。"
+  },
+  "world_offset": [
+    96,
+    0,
+    -40
+  ],
+  "spawn_local": [
+    0,
+    0,
+    4.8
+  ],
+  "rooms": [
+    {
+      "id": "blind_entry",
+      "bounds": [
+        -2,
+        0,
+        2.4,
+        2.2,
+        4.2,
+        5.4
+      ]
+    },
+    {
+      "id": "west_turn",
+      "bounds": [
+        -6.4,
+        0,
+        0.2,
+        0.1,
+        4.5,
+        3.2
+      ]
+    },
+    {
+      "id": "green_gallery",
+      "bounds": [
+        -6.4,
+        0,
+        -6.7,
+        -3.15,
+        4.8,
+        0.8
+      ]
+    },
+    {
+      "id": "return_corner",
+      "bounds": [
+        -4.5,
+        0,
+        -0.6,
+        1.3,
+        4.5,
+        1.4
+      ]
+    },
+    {
+      "id": "boarding_nave",
+      "bounds": [
+        -2.45,
+        0,
+        -2.6,
+        1.3,
+        4.5,
+        1.4
+      ]
+    },
+    {
+      "id": "upper_exit",
+      "bounds": [
+        -2.8,
+        3,
+        -12.7,
+        1.8,
+        10,
+        -8.95
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "blind_entry",
+      "to": "west_turn",
+      "type": "left_turn",
+      "overlap_x": [
+        -2,
+        0.1
+      ],
+      "overlap_z": [
+        2.4,
+        3.2
+      ]
+    },
+    {
+      "from": "west_turn",
+      "to": "green_gallery",
+      "type": "north_turn",
+      "overlap_z": [
+        0.2,
+        0.8
+      ]
+    },
+    {
+      "from": "green_gallery",
+      "to": "return_corner",
+      "type": "return_around_baffle"
+    },
+    {
+      "from": "return_corner",
+      "to": "boarding_nave",
+      "type": "north_turn"
+    },
+    {
+      "from": "boarding_nave",
+      "to": "green_lift_bottom",
+      "type": "flush_edge",
+      "z": -2.6
+    },
+    {
+      "from": "green_lift_top",
+      "to": "upper_exit",
+      "type": "landing",
+      "overlap": 0.05
+    }
+  ],
+  "reveal_plan": [
+    {
+      "view": "入口默认/拉远镜头",
+      "visible": "红灯、残窗、向左绕行的入口",
+      "hidden": "红绿机关与最终出口"
+    },
+    {
+      "view": "第一次左转后",
+      "visible": "下层绿机关、红色升降台及其连线",
+      "hidden": "二层红机关"
+    },
+    {
+      "view": "绕过隔墙进入升降庭",
+      "visible": "绿台、斜升轨道、二层红机关与门"
+    }
+  ],
+  "puzzle": {
+    "lamps": [
+      {
+        "id": "red",
+        "mask": 1,
+        "home": [
+          1,
+          0.3,
+          3.5
+        ]
+      },
+      {
+        "id": "green",
+        "mask": 2,
+        "home": [
+          -4.6,
+          0.3,
+          0.5
+        ]
+      }
+    ],
+    "receivers": [
+      {
+        "id": "green",
+        "required_mask": 2,
+        "position": [
+          -4.65,
+          0.52,
+          -5.8
+        ],
+        "controls": "green_lift"
+      },
+      {
+        "id": "red",
+        "required_mask": 1,
+        "position": [
+          -1.85,
+          3.52,
+          -10.4
+        ],
+        "controls": [
+          "red_lift",
+          "upper_gate"
+        ]
+      }
+    ],
+    "lifts": [
+      {
+        "id": "green_lift",
+        "start": [
+          -1,
+          0,
+          -4
+        ],
+        "end": [
+          -1,
+          3,
+          -7.6
+        ],
+        "deck_half_extents": [
+          1.4,
+          1.4
+        ],
+        "lamp_direction": [
+          0,
+          0,
+          -1
+        ],
+        "rest_offset": [
+          -0.85,
+          1.04,
+          0
+        ]
+      },
+      {
+        "id": "red_lift",
+        "start": [
+          -4.4,
+          0,
+          -1.8
+        ],
+        "end": [
+          -4.4,
+          2.1,
+          -1.8
+        ],
+        "deck_half_extents": [
+          1.05,
+          1.15
+        ],
+        "lamp_direction": [
+          0,
+          0,
+          -1
+        ],
+        "rest_offset": [
+          -0.25,
+          1.04,
+          0
+        ]
+      }
+    ],
+    "solution": [
+      "把红灯安放在绿台",
+      "把绿灯安放在红台",
+      "绿灯照到下层绿机关，使绿台携红灯上升并前移",
+      "红灯到达上层高度，照亮红机关，使红台与绿灯上升并开门",
+      "绿灯离开低处机关的高度，绿台停靠后返航",
+      "红灯下降离开上层机关，红台下降，绿灯再次照到下层机关",
+      "等待绿台回到底部，登上它并在上层停靠窗口穿门"
+    ],
+    "rules": [
+      "持续照射，不记录永久开关",
+      "不再有独立灯座：灯落在台面凹槽上就随台升降，朝向台面固定方向",
+      "绿灯需要一次接通沿启动，不因绿光一直亮着而自动往返",
+      "上一次行程中收到的新接通沿可排队，但必须回到底部且绿光仍有效才再次启动",
+      "真实灯位、几何遮挡和接收器高度决定供能",
+      "平台移动时灯具和站立角色随平台移动",
+      "绿台和绿机关之间的实体隔墙阻断自载照射；灯不能从手中伸穿墙",
+      "拾取和安放同样检查遮挡，不能隔墙操作",
+      "单色放在同色平台不能建立交叉循环",
+      "放下即自由落到地面或台面，不再吸附到任何固定点位"
+    ],
+    "gate_z": -11.3,
+    "win": {
+      "z_less_than": -11.95,
+      "y_greater_than": 2.8,
+      "red_power_required": true
+    }
+  },
+  "mechanism": {
+    "prop": "低低的烛台 + 目标颜色晶石，五关统一",
+    "candlestick": {
+      "plate": [
+        0.8,
+        0.16,
+        0.8
+      ],
+      "shaft_top": "晶石中心下方 0.3 米",
+      "ring_radius": 0.34
+    },
+    "crystal": {
+      "shape": "octahedron",
+      "radius": 0.34,
+      "center_y": {
+        "lower": 0.52,
+        "upper": 3.52
+      }
+    },
+    "note": "共用 mechanism.js 的 buildMechanism；二层机关的烛台从该层地面起算，灯台与升降台灯座只造烛台不造晶石",
+    "heights": {
+      "carry": 0.45,
+      "platform_lamp": 0.3,
+      "note": "台上灯具随台面停在 0.3 米，与晶石中心相差 0.22 米，仍在 0.42 米命中半径内"
+    },
+    "lamp": {
+      "model": "克隆第一关灯体，克隆后强制可见",
+      "rest_on_floor_y": 0.3,
+      "note": "没有灯台、没有吸附点；灯停在地上等待拿取，放下即自由落到地面（或台面），落地后按真实落点自动水平朝向最近可见的机关，看不到机关时保留放下时的朝向"
+    }
+  },
+  "metrics": {
+    "character_height": 1.3,
+    "character_radius": 0.24,
+    "walk_speed": 2.6,
+    "sprint_speed": 3.7,
+    "interaction_radius": 1.7,
+    "beam_range": 25,
+    "receiver_radius": 0.34,
+    "green_travel_seconds": 4,
+    "green_top_minimum_seconds": 3.4,
+    "green_bottom_wait_seconds": 2.2,
+    "red_speed": 1.2,
+    "gate_seconds": 0.55,
+    "camera_near": 0.025
+  },
+  "recovery": {
+    "player_fall": "回入口，保留平台上的布置，循环继续",
+    "descending_platform": "把台下角色移到旁边安全站位，避免夹入地板",
+    "loose_lamp": "真实落地；落到移动台上保留相对位置，落水回原灯台",
+    "reset": "灯具归位，两台回到底层，清空排队启动、计时、门状态和载人状态",
+    "pause": "冻结循环与载人移动"
+  },
+  "transition": {
+    "from": 4,
+    "to": 5,
+    "type": "particle_ferry",
+    "route_offset": [
+      72,
+      0,
+      -30
+    ],
+    "departure_local_z": -15.4,
+    "arrival_world": [
+      96,
+      0,
+      -35.2
+    ],
+    "route_relative": [
+      [
+        5.5,
+        -15.4
+      ],
+      [
+        10,
+        -13.5
+      ],
+      [
+        13.8,
+        -12.5
+      ],
+      [
+        13.8,
+        -7
+      ],
+      [
+        13.8,
+        -3
+      ],
+      [
+        19,
+        -2.4
+      ],
+      [
+        24,
+        -2.6
+      ]
+    ],
+    "route_note": "航线先绕开源关卡东侧，走两关之间的开阔水道，再从目标关卡南侧靠岸；全程不从任何建筑下方穿过"
+  },
+  "validation": {
+    "entry": "?verifyfive=1",
+    "fifth_cases_passed": 32,
+    "fourth_regression_cases_passed": 22,
+    "walking_solution": "完整交叉摆放、等待返航、真实登台和穿门已测试",
+    "loop_observation": "60秒模拟中完成4次往复，最高高度绿台3米、红台2.1米；移动前后最终画布像素不同",
+    "anti_exploit": "18个绿台站位光线遮挡、手持灯伸穿墙、隔墙拾取与安放检查",
+    "recovery_checks": "暂停冻结、防夹侧移、落水保留布置、整关重开",
+    "limitations": [
+      "未测实体手机性能",
+      "单文件file协议模式未由工具实测",
+      "自动路径不能替代真人理解与美术评价"
+    ]
+  }
+}

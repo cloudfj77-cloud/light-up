@@ -1,75 +1,57 @@
-# 光庭 Guangting
+# Light Up
 
-浏览器 3D 光学解谜游戏，采用 Three.js r180、正交相机、光色混合与持续供能机关。第一至第五关已接入；第六关代码为未接入草稿。
+团队正式开发工程，使用 **团结引擎 1.6.4 / Editor 2022.3.61t5**。
 
-## 开始开发
+目前完成：标准团结工程、交付素材导入、素材检查场景、Git LFS 和团队协作配置。原网页五关保存在 `WebPrototype/`，作为玩法与视觉参考。**网页玩法尚未移植为 C#；素材检查场景不是五关游戏。**
 
-需要 Git、Git LFS、Python 3.9+；语法检查需要 Node.js 22。
+## 团队第一次打开
 
-```sh
-git lfs install
-git clone https://github.com/cloudfj77-cloud/guangting.git
-cd guangting
-git lfs pull
-python3 tools/build.py
-python3 -m http.server 8770 --bind 127.0.0.1
-```
+1. 安装上述版本的团结引擎以及 Git LFS。
+2. 克隆并获取大文件：
 
-浏览器访问 http://127.0.0.1:8770/ 。WASD / 方向键移动，Shift 加速，E / F 拾取或放下灯具，鼠标转向，拖动画面旋转镜头，滚轮缩放。可以用 `?chapter=2` 至 `?chapter=5` 直达关卡。当前进度保存在浏览器 localStorage。
+   ```sh
+   git lfs install
+   git clone https://github.com/cloudfj77-cloud/light-up.git
+   cd light-up
+   git lfs pull
+   ```
 
-无需 npm 安装，运行资源均来自仓库。若模型加载失败，先运行 `git lfs pull`，检查资源是否仍是 LFS 指针文本。请通过 HTTP 服务运行。
+3. 在团结 Hub 中选择“添加本地项目”，选中仓库根目录（同时包含 `Assets`、`Packages`、`ProjectSettings`），使用 `2022.3.61t5` 打开。
+4. 等待 Package Manager 恢复依赖和资源首次导入。`com.unity.cloud.gltfast` 已固定为 `6.10.1`，不要由成员各自升级。
+5. 打开 `Assets/_LightUp/Scenes/DeliveryAssetReview.unity`。这是六份模型的检查展台，显示比例只作用于展台父物体；原素材尺寸保留；灯体 GLB 的两个空场景已在导入副本中清理，网格和材质未改。
+6. 菜单 `Light Up > Validate Delivery Import` 检查资源，详细结果写入本地 `artifacts/tuanjie-import.json`。
 
-## 源码与生成文件
+## 目录约定
 
 | 路径 | 用途 |
 | --- | --- |
-| `main.js` | 游戏入口、关卡调度、输入、UI、相机 |
-| `engine.js` | 打包后的 Three.js、加载器、前三关及其测试；后续逐步拆分 |
-| `chapter-four.js` / `chapter-five.js` | 第四、第五关 |
-| `chapter-six.js` | 第六关草稿，未参与构建或主流程 |
-| `mechanism.js` / `orbits.js` | 共用机关、光色 UI |
-| `shell.html` | 页面源模板 |
-| `assets/` | 12 份资源；模型和图片使用 Git LFS |
-| `level_04_spec.json` / `level_05_spec.json` | 第四、第五关规格 |
-| `verify-fourth.js` / `verify-fifth.js` | 浏览器内回归用例 |
-| `tools/` | 构建、完整性校验、历史导入工具 |
-| `app.js` / `index.html` | 已跟踪的生成文件，修改源码后重新构建并一起提交 |
+| `Assets/_LightUp/Art/Delivery/` | 交付素材的导入副本，保留原名；GLB 兼容处理见迁移记录 |
+| `Assets/_LightUp/Design/` | 第四、第五关原规格 |
+| `Assets/_LightUp/Prefabs/` | 已绑定完整贴图的人物 Prefab 变体，正式场景优先使用 |
+| `Assets/_LightUp/Scenes/` | 团结场景，当前为素材检查场景 |
+| `Assets/_LightUp/Editor/` | 导入验证与检查场景生成工具 |
+| `Packages/` | 团队共用依赖及锁定文件 |
+| `ProjectSettings/` | 统一引擎、输入、渲染、产品名称和版本控制设置 |
+| `WebPrototype/` | 原网页源码、资源、测试、构建工具；迁移参考，不在引擎中执行 |
+| `tools/verify_project.py` | 无需引擎的目录、meta、依赖及资源一致性检查 |
+| `docs/TUANJIE_MIGRATION.md` | 已导入内容、未迁移内容和后续分工建议 |
 
-`tools/build.py` 还生成约 91 MB 的 `光庭_五关完整版.html`，只作为交付产物，不入 Git。
+日常源码提交 `Assets`（连同 `.meta`）、`Packages`、`ProjectSettings`；不提交 `Library`、`Temp`、`Logs`、`UserSettings` 和本机构建产物。场景、Prefab 和设置使用文本序列化，二进制美术资源使用 Git LFS。详见 [协作指南](CONTRIBUTING.md)。
 
-## 检查
+## 验证与网页参考
 
 ```sh
+python3 tools/verify_project.py
+cd WebPrototype
 python3 tools/build.py
 python3 tools/verify_package.py
-node --input-type=module --check < app.js
-node --input-type=module --check < chapter-six.js
-node --check checked-standalone.mjs
+python3 -m http.server 8770 --bind 127.0.0.1
 ```
 
-校验以 `source-manifest.json` 为准，检查本地资源和单文件内嵌资源的大小、SHA-256 与机关约定，不依赖交付者电脑。更换资源时需审查并更新清单。原始 `光庭.html` 未包含在交付包中；若持有该文件，可额外运行 `python3 tools/verify_package.py --source /path/to/光庭.html` 进行历史来源校验。默认会明确报告未执行这项可选检查。
+网页访问 http://127.0.0.1:8770/ ，五关浏览器回归操作见 [网页说明](WebPrototype/README.md)。网页基线曾通过 112/112 项回归，**这不代表团结版玩法已实现或通过测试**。
 
-运行本地服务后，分别打开：
+GitHub Actions 检查项目结构、meta、原始资源一致性，并构建/校验网页基线。团结编辑器导入检查需使用相同版本在本地执行；CI 尚未配置带许可的团结运行器。
 
-- `http://127.0.0.1:8770/?verify=1&campaign=1&third=1`：第一至三关。
-- `http://127.0.0.1:8770/?verifyfour=1&verifyfive=1`：第四、第五关。
+仓库为公开仓库，写入由受邀团队成员控制。保留原交付基线标签 `delivery-20260929`。历史文档 `docs/DELIVERY_*.md` 和 `docs/PROJECT_REVIEW.md` 记录早期网页交付状态，以当前 README 为开发入口。项目名称为 **Light Up**；原型中“光庭”的名称保留用于来源追溯。
 
-测试结果写入隐藏的 `pre` 元素，可在浏览器控制台读取：
-
-```js
-[...document.querySelectorAll('pre')].map(el => ({ id: el.id, ...JSON.parse(el.textContent) }))
-```
-
-2026-09-29 本机 Chromium 实测：21/21、18/18、18/18、23/23、32/32，共 112/112。自动用例不等于完整人工验收；实体手机性能和单文件 file 协议尚未验证。
-
-GitHub Actions 自动执行构建、资源完整性、语法和生成文件同步检查；浏览器回归目前需手动运行。
-
-## 团队协作
-
-`main` 保存通过检查的版本，功能开发使用 `feat/xxx`，修复使用 `fix/xxx`，通过 PR 合并。详见 [协作指南](CONTRIBUTING.md) 和 [接手评估](docs/PROJECT_REVIEW.md)。
-
-交付基线标签为 `delivery-20260929`；原交付说明保存在 `docs/DELIVERY_*.md`，仅供历史参考，以本 README 为当前操作入口。`online-baseline.json` 也是交付时的历史记录，不代表当前部署。
-
-`tools/unpack.py` 是一次性历史导入工具，会覆盖游戏源码，不用于日常开发；必须显式传入源文件和 `--force` 才能执行。
-
-仓库公开便于查看，但项目未授予统一的开源许可证；素材及内嵌第三方代码的权利与许可需按各自来源核对，公开仓库不代表可任意再分发。
+仓库未授予统一开源许可证；素材及内嵌第三方库依各自来源许可使用。

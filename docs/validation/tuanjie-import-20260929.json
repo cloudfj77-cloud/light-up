@@ -1,0 +1,52 @@
+{
+    "product": "Light Up",
+    "editor": "2022.3.61t5",
+    "checkedUtc": "2026-09-29T04:40:30.7065980Z",
+    "scope": "Delivery asset import only; web gameplay is not ported.",
+    "models": [
+        {
+            "path": "Assets/_LightUp/Art/Delivery/source-02.glb",
+            "renderers": 70,
+            "meshes": 70,
+            "materials": 12,
+            "animationClips": 0
+        },
+        {
+            "path": "Assets/_LightUp/Art/Delivery/source-03.glb",
+            "renderers": 32,
+            "meshes": 32,
+            "materials": 11,
+            "animationClips": 0
+        },
+        {
+            "path": "Assets/_LightUp/Art/Delivery/source-04.glb",
+            "renderers": 5,
+            "meshes": 6,
+            "materials": 5,
+            "animationClips": 0
+        },
+        {
+            "path": "Assets/_LightUp/Art/Delivery/source-05.fbx",
+            "renderers": 1,
+            "meshes": 1,
+            "materials": 1,
+            "animationClips": 1
+        },
+        {
+            "path": "Assets/_LightUp/Art/Delivery/source-10.fbx",
+            "renderers": 1,
+            "meshes": 1,
+            "materials": 1,
+            "animationClips": 1
+        },
+        {
+            "path": "Assets/_LightUp/Art/Delivery/source-11.fbx",
+            "renderers": 1,
+            "meshes": 1,
+            "materials": 1,
+            "animationClips": 1
+        }
+    ],
+    "textures": 4,
+    "designFiles": 4
+}
