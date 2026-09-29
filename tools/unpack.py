@@ -1,3 +1,4 @@
+import argparse
 import base64
 import hashlib
 import json
@@ -5,8 +6,14 @@ import re
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
-SOURCE=Path('/Users/zhixuanchen/Library/Containers/com.tencent.WeWorkMac/Data/Documents/Profiles/4B43F1C0C2F7C366865AEFF620B42C3C/Caches/Files/2026-09/5fa53dfe1c45f8c38edb6ccdcdf554c4/光庭.html')
-text=SOURCE.read_text()
+parser = argparse.ArgumentParser(description="One-time extraction into this checkout. Overwrites engine.js, main.js, shell.html and assets.")
+parser.add_argument('source', type=Path, help='Original standalone 光庭.html')
+parser.add_argument('--force', action='store_true', help='Explicitly allow overwriting the current game sources')
+args = parser.parse_args()
+if not args.force:
+    parser.error('Extraction overwrites existing game sources; use --force only in a disposable copy.')
+SOURCE = args.source
+text=SOURCE.read_text(encoding='utf-8')
 tag='<script type="module">'
 start=text.index(tag)
 script=text[start+len(tag):text.rindex('</script>')]
@@ -25,5 +32,5 @@ engine,main=script.split(marker,1)
 (ROOT/'engine.js').write_text(engine)
 (ROOT/'main.js').write_text(marker+main)
 (ROOT/'shell.html').write_text(text[:start]+'<!-- GAME_SCRIPT -->'+text[text.rindex('</script>')+len('</script>'):])
-(ROOT/'source-manifest.json').write_text(json.dumps({'source':str(SOURCE),'sha256':hashlib.sha256(text.encode()).hexdigest(),'assets':manifest},indent=2,ensure_ascii=False))
+(ROOT/'source-manifest.json').write_text(json.dumps({'source':SOURCE.name,'sha256':hashlib.sha256(text.encode()).hexdigest(),'assets':manifest},indent=2,ensure_ascii=False))
 print(f'Unpacked {count} assets; source preserved; main {len(main)} characters')
