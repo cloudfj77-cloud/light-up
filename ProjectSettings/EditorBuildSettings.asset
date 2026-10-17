@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_LightUp/Scenes/ChapterOne.unity
+    guid: d4ab6d227f2f54eeca250ffc4ede9187
+  - enabled: 0
     path: Assets/_LightUp/Scenes/DeliveryAssetReview.unity
     guid: e998fca180e994e08a364468e5ceb026
   m_BuildProfiles: []

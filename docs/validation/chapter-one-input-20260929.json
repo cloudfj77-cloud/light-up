@@ -1,0 +1,32 @@
+{
+    "editor": "2022.3.61t5",
+    "checkedUtc": "2026-09-29T06:10:17.3728530Z",
+    "checks": [
+        "Keyboard directions follow screen at camera yaw 32",
+        "Keyboard directions follow screen at camera yaw 122",
+        "Keyboard directions follow screen at camera yaw 212",
+        "Keyboard directions follow screen at camera yaw 302",
+        "Starts with sleeping receiver, closed gate and submerged bridge",
+        "Far pickup is rejected",
+        "Walking to lamp enables pickup",
+        "Carried beam activates receiver",
+        "Turning away removes power immediately",
+        "Solid obstacle blocks optical ray",
+        "Closed gate physically blocks character",
+        "Released lamp falls onto floor",
+        "Ground lamp auto-aims and continuously raises gate and bridge",
+        "Power alone does not complete chapter",
+        "Falling respawns player and preserves placed lamp",
+        "Pause freezes simulation and interaction",
+        "Placed lamp can be picked up again",
+        "Removing power closes gate and submerges bridge",
+        "Character walks across raised bridge without falling",
+        "Full route reaches arrival and completes chapter",
+        "Reset restores all chapter state",
+        "Lamp dropped into water returns home",
+        "Imported textured character and animation clips are assigned",
+        "Imported character rig contains animated leg",
+        "Walk clip changes skeleton pose through native Playables"
+    ],
+    "scope": "Native ChapterOne Play Mode movement, optical occlusion, continuous power, gate/bridge, pause/reset, fall recovery and complete walking route."
+}
